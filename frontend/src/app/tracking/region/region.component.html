@@ -1,0 +1,55 @@
+<div *ngIf= "insurances.length !=0">
+  <h5 class="text-center">
+    Danh sách BHXH tự nguyện theo {{ districtName }} - Hà Nội
+  </h5>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Mã số BH</th>
+        <th scope="col">Họ tên</th>
+        <th scope="col">CMND</th>
+        <th scope="col">Ngày sinh</th>
+        <th scope="col">Ngày tham gia</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let insurance of insurances; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ insurance.code }}</td>
+        <td>{{ insurance.user.username }}</td>
+        <td>{{ insurance.user.id_code }}</td>
+        <td>{{ insurance.user.date_of_birth }}</td>
+        <td>{{ insurance.created_at }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf= "companies.length !=0">
+  <h5 class="text-center">
+    Danh sách BHXH tự nguyện tại {{ districtName }} - Hà Nội
+  </h5>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Mã đơn vị</th>
+        <th scope="col">Số lao động</th>
+        <th scope="col">Ngày tham gia</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let company of companies; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ company.company_id }}</td>
+        <td>{{ company.users }}</td>
+        <td>{{ company.created_at }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h5 *ngIf="insurances.length == 0 && companies.length == 0" class="text-center">
+  Ở {{districtName}} - Hà Nội chưa có người đăng ký loại bảo hiểm này
+</h5>

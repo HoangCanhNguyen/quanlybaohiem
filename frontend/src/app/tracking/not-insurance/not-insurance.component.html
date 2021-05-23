@@ -1,0 +1,77 @@
+<div *ngIf= "personalNotInsurances.length !=0">
+  <h5 class="text-center">
+    Danh sách chưa đóng bảo hiểm xã hội tự nguyện
+  </h5>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Họ tên</th>
+        <th scope="col">Mã số BH</th>
+        <th scope="col">Địa chỉ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let insurance of personalNotInsurances; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ insurance.user.username }}</td>
+        <td>{{ insurance.code }}</td>
+        <td>{{ insurance.user.address }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf= "companiesNotInsurances.length !=0">
+  <h5 class="text-center">
+    Danh sách đóng bảo hiểm xã hội bắt buộc
+  </h5>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Tên đơn vị</th>
+        <th scope="col">Mã đơn vị</th>
+        <th scope="col">Địa chỉ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let company of companiesNotInsurances; let i = index" (click)="EmitCompanyValue(company.company_id)">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ company.name }}</td>
+        <td>{{ company.company_id }}</td>
+        <td>{{ company.address }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf= "insuranceList.length !=0" class="mt-5">
+  <h5 class="text-center">
+    Chi tiết tình trạng đóng
+  </h5>
+  <div class="row my-4">
+    <div class="col-6">Tên đơn vị: {{ insuranceList[0].belong_to_company }}</div>
+    <div class="col-6">Mã đơn vị: {{ insuranceList[0].code }}</div>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Tháng</th>
+        <th scope="col">Tình trạng</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let insurance of insuranceList; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ insurance.created_at }}</td>
+        <td>{{ insurance.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h5 *ngIf="personalNotInsurances.length == 0 && companiesNotInsurances.length == 0" class="text-center">
+  Chưa có người đăng ký trong khoảng thời gian này
+</h5>

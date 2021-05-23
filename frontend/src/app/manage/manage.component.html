@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card text-center" style="width: 23rem">
+      <div class="card-body">
+        <h5 class="card-title">Chọn loại cấu hình</h5>
+        <div class="row">
+          <div class="col-12 mt-3">
+            <button class="btn btn-secondary w-100" (click)="getWageRates()">
+              Mức lương đóng BHXH
+            </button>
+          </div>
+          <div class="col-12 mt-3">
+            <button
+              class="btn btn-secondary w-100"
+              (click)="getInsuranceRate()"
+            >
+              Tỷ lệ đóng BHXH
+            </button>
+          </div>
+          <div class="col-12 mt-3">
+            <button class="btn btn-secondary w-100" [routerLink]="['/quan-ly']">
+              Huỷ bỏ
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12" *ngIf="wageList.length != 0">
+    <app-wage [wageList]="wageList"></app-wage>
+  </div>
+  <div class="col-12" *ngIf="insurancesRate.length != 0">
+    <app-insurance [insurancesRate]="insurancesRate"></app-insurance>
+  </div>
+</div>

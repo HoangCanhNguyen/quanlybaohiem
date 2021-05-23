@@ -1,0 +1,68 @@
+<div>
+  <h5 class="text-center">Tỷ lệ đóng BHXH cá nhân/tổ chức</h5>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Loại BHXH</th>
+        <th scope="col">Cá nhân</th>
+        <th scope="col">Tổ chức</th>
+        <th scope="col">Tổng</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let insurance of insurancesRate; let i = index" (click)="choose(insurance)">
+        <td>{{ insurance.type }}</td>
+        <td>{{ insurance.personal_rate.$numberDecimal }}</td>
+        <td>{{ insurance.organization_rate.$numberDecimal }}</td>
+        <td>{{ insurance.summary.$numberDecimal }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="row">
+
+  <!-- <button class="col-1 btn btn-secondary mr-5" (click)="choose()">Sửa</button> -->
+  <button
+    class="col-1 btn btn-secondary mr-5"
+    [disabled]="rateForm.invalid"
+    (click)="update()"
+  >
+    Cập nhật
+  </button>
+  <button class="col-1 btn btn-secondary" (click)="cancel()">Huỷ bỏ</button>
+</div>
+
+<h5 class="text-danger">{{message}}</h5>
+
+<form [formGroup]="rateForm" class="mt-5">
+  <div class="form-group row">
+    <div class="col-3 col-form-label">Loại BHXH: </div>
+    <div>{{type}}</div>
+  </div>
+  <div class="form-group row">
+    <label for="control-2" class="col-3 col-form-label"
+      >Cá nhân:
+    </label>
+    <input
+      type="number"
+      class="form-control col-5"
+      id="control-2"
+      step="0.01"
+      formControlName="personal_rate"
+    />
+    <span class="col-1 pt-2">%</span>
+  </div>
+  <div class="form-group row">
+    <label for="control-3" class="col-3 col-form-label"
+      >Tổ chức:
+    </label>
+    <input
+      type="number"
+      class="form-control col-5"
+      id="control-3"
+      step="0.01"
+      formControlName="organization_rate"
+    />
+    <span class="col-1 pt-2">%</span>
+  </div>
+</form>

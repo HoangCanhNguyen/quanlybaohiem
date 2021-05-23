@@ -1,0 +1,319 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card text-center" style="width: 23rem">
+      <div class="card-body">
+        <h5 class="card-title">Loại báo cáo</h5>
+        <div class="row">
+          <div class="col-12 mt-3">
+            <button
+              class="btn btn-secondary w-100"
+              data-toggle="modal"
+              data-target="#dateRangeModal"
+            >
+              Xem báo cáo doanh số theo thời gian
+            </button>
+          </div>
+          <div class="col-12 mt-3">
+            <button
+              class="btn btn-secondary w-100"
+              data-toggle="modal"
+              data-target="#regionFilterModal"
+            >
+              Xem báo cáo doanh số theo quận huyện
+            </button>
+          </div>
+          <div class="col-12 mt-3">
+            <button class="btn btn-secondary w-100" [routerLink]="['/quan-ly']">
+              Huỷ bỏ
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Báo cáo danh sách theo vùng modal -->
+<div
+  class="modal fade"
+  id="regionFilterModal"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="regionFilterModalLabel">
+          Xem danh sách tham gia theo vùng
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="showInsuranceByRegion()" [formGroup]="districtForm">
+          <div class="form-group row">
+            <label for="exampleFormControlSelect1" class="col-4 col-form-label"
+              >Quận, Huyện</label
+            >
+            <select
+              class="form-control col-7"
+              id="exampleFormControlSelect1"
+              formControlName="district"
+            >
+              <option *ngFor="let district of districts" [value]="district">
+                {{ district }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group row">
+            <label for="exampleFormControlSelect1" class="col-4 col-form-label"
+              >Loại bảo hiểm</label
+            >
+            <select
+              class="form-control col-7"
+              id="exampleFormControlSelect1"
+              formControlName="type"
+            >
+              <option *ngFor="let type of insuranceTypes" [value]="type">
+                {{ type }}
+              </option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="submit"
+          (click)="showInsuranceByRegion()"
+          class="btn btn-secondary"
+        >
+          Xem
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          #closeRegionModal
+        >
+          Huỷ bỏ
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- báo cáo doanh số theo thời gian modal -->
+<div
+  class="modal fade"
+  id="dateRangeModal"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dateRangeModalLabel">
+          Chọn loại bảo hiểm xã hội
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="showReportByDateRange()" [formGroup]="dateRangeForm">
+          <div class="form-group row">
+            <label for="exampleFormControlSelect1" class="col-4 col-form-label"
+              >Loại bảo hiểm</label
+            >
+            <select
+              class="form-control col-7"
+              id="exampleFormControlSelect1"
+              formControlName="type"
+            >
+              <option *ngFor="let type of insuranceTypes" [value]="type">
+                {{ type }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group row">
+            <label for="exampleFormControlSelect2" class="col-4 col-form-label"
+              >Từ ngày:
+            </label>
+            <input
+              class="form-control col-7"
+              id="exampleFormControlSelect2"
+              formControlName="start_at"
+            />
+          </div>
+          <div class="form-group row">
+            <label for="exampleFormControlSelect3" class="col-4 col-form-label"
+              >Đến ngày:
+            </label>
+            <input
+              class="form-control col-7"
+              id="exampleFormControlSelect3"
+              formControlName="end_at"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="submit"
+          (click)="showReportByDateRange()"
+          class="btn btn-secondary"
+        >
+          Xem
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          #closedateRangeModal
+        >
+          Huỷ bỏ
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- danh sách bảo hiểm tự nguyện -->
+<div *ngIf="willinglyInsurances.length != 0">
+  <h5 class="text-center">Doanh số theo thời gian tương ứng BHXH tự nguyện</h5>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Mã số BH</th>
+        <th scope="col">Họ tên</th>
+        <th scope="col">CMND</th>
+        <th scope="col">Địa chỉ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let insurance of willinglyInsurances; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ insurance.code }}</td>
+        <td>{{ insurance.user.username }}</td>
+        <td>{{ insurance.user.id_code }}</td>
+        <td>{{ insurance.user.address }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div>Tổng số người tham gia: {{ willinglyInsurances.length }} người</div>
+</div>
+
+<!-- danh sách bảo hiểm bắt buộc theo công ty -->
+<div *ngIf="compulsoryInsurances.length != 0">
+  <h5 class="text-center">Doanh số theo thời gian tương ứng BHXH bắt buộc</h5>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Mã đơn vị</th>
+        <th scope="col">Tên đơn vị</th>
+        <th scope="col">Số lao động</th>
+        <th scope="col">Địa chỉ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let company of compulsoryInsurances; let i = index"
+        (click)="getUsersByCompany(company.company_id)"
+      >
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ company.company_id }}</td>
+        <td>{{ company.name }}</td>
+        <td>{{ company.users.length }}</td>
+        <td>{{ company.address }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="insurances.length != 0">
+  <h5 class="text-center">Chi tiết lao động trong công ty/doanh nghiệp</h5>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Mã BH</th>
+        <th scope="col">Họ Tên</th>
+        <th scope="col">CMND</th>
+        <th scope="col">Địa chỉ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let insurance of insurances; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ insurance.code }}</td>
+        <td>{{ insurance.user.username }}</td>
+        <td>{{ insurance.user.id_code }}</td>
+        <td>{{ insurance.user.address }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div>Tổng số người tham gia: {{insurances.length}} người</div>
+</div>
+
+<div *ngIf="companies.length != 0">
+  <h5 class="text-center">Doanh số theo thời gian tương ứng BHXH bắt buộc</h5>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Mã đơn vị</th>
+        <th scope="col">Tên đơn vị</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let company of companies; let i = index"
+        (click)="getUsersByCompanyAndRegion(company.company_id)"
+      >
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ company.company_id }}</td>
+        <td>{{ company.name }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- danh sách người đóng bảo hiểm theo công ty -->
+<div *ngIf="users.length != 0">
+  <h5 class="text-center">Chi tiết lao động trong công ty/doanh nghiệp</h5>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Mã BH</th>
+        <th scope="col">Họ Tên</th>
+        <th scope="col">CMND</th>
+        <th scope="col">Địa chỉ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ user.insurance_code }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.id_code }}</td>
+        <td>{{ user.address }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

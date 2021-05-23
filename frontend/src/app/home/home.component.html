@@ -1,0 +1,28 @@
+<div class="container-fluid">
+  <div class="row mt-5 text-center">
+    <div class="col-3">
+      <div class="card text-center" style="width: 16rem">
+        <div class="card-body">
+          <h5 class="card-title">Trang chủ</h5>
+          <div class="row">
+            <div class="col-12 mt-3">
+              <button class="btn btn-secondary w-100" [routerLink]= "['danh-sach']">Theo dõi</button>
+            </div>
+              <div class="col-12 mt-3">
+                <button class="btn btn-secondary w-100" [routerLink]= "['bao-cao']">Báo cáo thống kê</button>
+              </div>
+              <div class="col-12 mt-3">
+                <button class="btn btn-secondary w-100" [routerLink]= "['cau-hinh']">Cấu hình</button>
+              </div>
+              <div class="col-12 mt-3">
+                <button class="btn btn-secondary w-100">Huỷ bỏ</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-9">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

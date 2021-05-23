@@ -1,0 +1,318 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card text-center" style="width: 23rem">
+      <div class="card-body">
+        <h5 class="card-title">Theo dõi danh sách</h5>
+        <div class="row">
+          <div class="col-12 mt-3">
+            <button
+              class="btn btn-secondary w-100"
+              data-toggle="modal"
+              data-target="#regionFilterModal"
+            >
+              Xem danh sách theo vùng
+            </button>
+          </div>
+          <div class="col-12 mt-3">
+            <button
+              class="btn btn-secondary w-100"
+              data-toggle="modal"
+              data-target="#personalModal"
+            >
+              Xem tổ chức/cá nhân tham gia BHXH
+            </button>
+          </div>
+          <div class="col-12 mt-3">
+            <button
+              class="btn btn-secondary w-100"
+              data-toggle="modal"
+              data-target="#doNotHaveInsuranceModal"
+            >
+              Xem danh sách chưa đóng BHXH
+            </button>
+          </div>
+          <div class="col-12 mt-3">
+            <button class="btn btn-secondary w-100" [routerLink]="['/quan-ly']">
+              Huỷ bỏ
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 mt-4" *ngIf="viewMode == 'region'">
+    <app-region
+      [insurances]="insurances"
+      [districtName]="districtForm.value.district"
+      [companies]="companies"
+    ></app-region>
+  </div>
+  <div class="col-12 mt-4" *ngIf="viewMode == 'dateRange'">
+    <app-personal
+      [personalInsurances]="personalInsurances"
+      [companyInsurances]="companyInsurances"
+      (user)="getUserInsurances($event)"
+      [individualInsurances]="individualInsurances"
+    ></app-personal>
+  </div>
+  <div class="col-12 mt-4" *ngIf="viewMode == 'not-insurance'">
+    <app-not-insurance
+      [personalNotInsurances]="personalNotInsurances"
+      [companiesNotInsurances]="companiesNotInsurances"
+      (company)="getCompanyInsurances($event)"
+      [insuranceList]="insuranceList"
+    ></app-not-insurance>
+  </div>
+</div>
+
+<!-- Region Modal -->
+<div
+  class="modal fade"
+  id="regionFilterModal"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="regionFilterModalLabel">
+          Xem danh sách tham gia theo vùng
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="showInsuranceByRegion()" [formGroup]="districtForm">
+          <div class="form-group row">
+            <label for="exampleFormControlSelect1" class="col-4 col-form-label"
+              >Quận, Huyện</label
+            >
+            <select
+              class="form-control col-7"
+              id="exampleFormControlSelect1"
+              formControlName="district"
+            >
+              <option *ngFor="let district of districts" [value]="district">
+                {{ district }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group row">
+            <label for="exampleFormControlSelect1" class="col-4 col-form-label"
+              >Loại bảo hiểm</label
+            >
+            <select
+              class="form-control col-7"
+              id="exampleFormControlSelect1"
+              formControlName="type"
+            >
+              <option *ngFor="let type of insuranceTypes" [value]="type">
+                {{ type }}
+              </option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="submit"
+          (click)="showInsuranceByRegion()"
+          class="btn btn-secondary"
+        >
+          Xem
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          #closeRegionModal
+        >
+          Huỷ bỏ
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Date Range Modal -->
+<div
+  class="modal fade"
+  id="personalModal"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="personalModalLabel">
+          Tổ chức, cá nhân tham gia BHXH
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="showInsuranceByPersonal()" [formGroup]="personalForm">
+          <div class="form-group row">
+            <label for="exampleFormControlSelect1" class="col-4 col-form-label"
+              >Mã BHXH:
+            </label>
+            <input
+              class="form-control col-7"
+              id="exampleFormControlSelect1"
+              formControlName="code"
+            />
+          </div>
+          <div class="form-group row">
+            <label for="exampleFormControlSelect2" class="col-4 col-form-label"
+              >Từ ngày:
+            </label>
+            <input
+              class="form-control col-7"
+              id="exampleFormControlSelect2"
+              formControlName="start_at"
+            />
+          </div>
+          <div class="form-group row">
+            <label for="exampleFormControlSelect3" class="col-4 col-form-label"
+              >Đến ngày:
+            </label>
+            <input
+              class="form-control col-7"
+              id="exampleFormControlSelect3"
+              formControlName="end_at"
+            />
+          </div>
+          <div class="form-group row">
+            <label for="exampleFormControlSelect1" class="col-4 col-form-label"
+              >Loại bảo hiểm</label
+            >
+            <select
+              class="form-control col-7"
+              id="exampleFormControlSelect1"
+              formControlName="type"
+            >
+              <option *ngFor="let type of insuranceTypes" [value]="type">
+                {{ type }}
+              </option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="submit"
+          (click)="showInsuranceByPersonal()"
+          class="btn btn-secondary"
+        >
+          Xem
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          #closePersonalModal
+        >
+          Huỷ bỏ
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Do not get insurance modal -->
+
+<div
+  class="modal fade"
+  id="doNotHaveInsuranceModal"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="doNotHaveInsuranceModalLabel">
+          Chọn loại bảo hiểm xã hội
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="showNotInsurances()" [formGroup]="personalForm">
+          <div class="form-group row">
+            <label for="exampleFormControlSelect1" class="col-4 col-form-label"
+              >Loại bảo hiểm</label
+            >
+            <select
+              class="form-control col-7"
+              id="exampleFormControlSelect1"
+              formControlName="type"
+            >
+              <option *ngFor="let type of insuranceTypes" [value]="type">
+                {{ type }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group row">
+            <label for="exampleFormControlSelect2" class="col-4 col-form-label"
+              >Từ ngày:
+            </label>
+            <input
+              class="form-control col-7"
+              id="exampleFormControlSelect2"
+              formControlName="start_at"
+            />
+          </div>
+          <div class="form-group row">
+            <label for="exampleFormControlSelect3" class="col-4 col-form-label"
+              >Đến ngày:
+            </label>
+            <input
+              class="form-control col-7"
+              id="exampleFormControlSelect3"
+              formControlName="end_at"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="submit"
+          (click)="showNotInsurances()"
+          class="btn btn-secondary"
+        >
+          Xem
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          #closeNotInsuranceModal
+        >
+          Huỷ bỏ
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

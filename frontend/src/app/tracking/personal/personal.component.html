@@ -1,0 +1,90 @@
+<div *ngIf="personalInsurances.length != 0">
+  <h5 class="text-center">Bảo hiểm xã hội tự nguyện</h5>
+  <div class="row my-4">
+    <div class="col-4">
+      Họ và tên: {{ personalInsurances[0].user.username }}
+    </div>
+    <div class="col-4">
+      Quận Huyện: {{ personalInsurances[0].user.address }}
+    </div>
+    <div class="col-4">Quận Huyện: {{ personalInsurances[0].code }}</div>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Tháng</th>
+        <th scope="col">Mức lương</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let insurance of personalInsurances; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ insurance.created_at }}</td>
+        <td>{{ insurance.user.wage }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div>Tổng số tháng tham gia: {{ personalInsurances.length }} tháng</div>
+</div>
+
+<div *ngIf="companyInsurances.length != 0">
+  <h5 class="text-center">Xem tổ chức tham gia bảo hiểm bắt buộc</h5>
+  <div class="row my-4">
+    <div class="col-4">Tên đơn vị: {{ companyInsurances[0].name }}</div>
+    <div class="col-4">Mã đơn vị: {{ companyInsurances[0].company_id }}</div>
+    <div class="col-4">Địa chỉ: {{ companyInsurances[0].address }}</div>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Họ tên</th>
+        <th scope="col">Mã số BH</th>
+        <th scope="col">CMND</th>
+        <th scope="col">Địa chỉ</th>
+        <th scope="col">Chức vụ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let user of companyInsurances[0].users; let i = index"
+        (click)="onGetPersonalInsurances(user.insurance_code)"
+      >
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ user.username }}</td>
+        <td>{{ user.insurance_code }}</td>
+        <td>{{ user.id_code }}</td>
+        <td>{{ user.address }}</td>
+        <td>{{ user.position }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table table-bordered" *ngIf="individualInsurances.length != 0">
+    <thead>
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Họ tên</th>
+        <th scope="col">Mã số BH</th>
+        <th scope="col">Chức vụ</th>
+        <th scope="col">Ngày tham gia</th>
+        <th scope="col">Mức lương</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let insurace of individualInsurances; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ insurace.user.username }}</td>
+        <td>{{ insurace.code }}</td>
+        <td>{{ insurace.user.position }}</td>
+        <td>{{ insurace.created_at }}</td>
+        <td>{{ insurace.user.wage }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h5 *ngIf="personalInsurances.length == 0 && companyInsurances.length == 0" class="text-center">
+  Chưa có người đăng ký trong khoảng thời gian này
+</h5>
