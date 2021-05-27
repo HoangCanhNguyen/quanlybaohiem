@@ -245,6 +245,10 @@
   </table>
 </div>
 
+<div *ngIf="willinglyInsurances.length == 0 && compulsoryInsurances.length == 0 && isGetByDateRanage">
+  <h5>Trong khoảng thời gian này chưa có bảo hiểm nào</h5>
+</div>
+
 <div *ngIf="insurances.length != 0">
   <h5 class="text-center">Chi tiết lao động trong công ty/doanh nghiệp</h5>
   <table class="table table-bordered">

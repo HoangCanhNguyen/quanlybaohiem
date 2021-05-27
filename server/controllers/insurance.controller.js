@@ -48,6 +48,7 @@ exports.getInsurancesByDateRange = async (req, res) => {
 
 exports.getNotInsurancesByDateRange = async (req, res) => {
   try {
+    console.log(req.body)
     if (req.query.type === "willingly") {
       const insurances = await Insurance.find({
         $and: [

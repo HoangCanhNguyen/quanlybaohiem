@@ -27,6 +27,8 @@ export class ReportComponent implements OnInit {
   public insurances: any = [];
   public companies: any = [];
 
+  public isGetByDateRanage = false;
+
   @ViewChild('closedateRangeModal') closedateRangeModal: ElementRef;
   @ViewChild('closeRegionModal') closeRegionModal: ElementRef;
 
@@ -46,6 +48,7 @@ export class ReportComponent implements OnInit {
 
   showReportByDateRange() {
     var type: string;
+    this.isGetByDateRanage = true;
     if (this.dateRangeForm.value.type === 'BHXH tự nguyện') {
       type = 'willingly';
     } else {
@@ -58,6 +61,7 @@ export class ReportComponent implements OnInit {
       start_at: start_at.getTime(),
       end_at: end_at.getTime(),
       status: 'Đã đóng',
+      type: this.dateRangeForm.value.type
     };
 
     this.listService
